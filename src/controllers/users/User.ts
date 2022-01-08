@@ -36,18 +36,27 @@ class UserController {
         }
     }
 
+    me = async (request: any, response: any) => {
+        response.send(request.user)
+    }
+
     auth = async (request: any, response: any) => {
         const { body } = request
 
         const { email, password } = body
 
         try {
-            const { user } = await this.userService.checkPassword(email, password)
+            const { user, checkPassword } = await this.userService.checkPassword(email, password)
 
-            const payload = {id: user.id}
-            const token = jwt.sign(payload, jwtOptions.secretOrKey)
+            if (checkPassword) {
+                const payload = { id: user.id }
 
-            response.send({ token })
+                const token = jwt.sign(payload, jwtOptions.secretOrKey)
+
+                response.send({ token })
+            } else {
+                throw new Error('Login or password is incorrect!')
+            }
         } catch (e: any) {
             response.status(401).send({ "error": e.message })
         }

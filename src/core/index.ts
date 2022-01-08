@@ -6,6 +6,7 @@ import adminRoutes from "../routes/admin/admin"
 import sequelize from "../providers/db"
 import { Sequelize } from 'sequelize-typescript'
 import bodyParser from "body-parser"
+import passport from "../middlewares/passport"
 
 class App {
     public port: number
@@ -28,6 +29,7 @@ class App {
         const app = express()
         app.use(cors())
         app.use(bodyParser.json())
+        app.use(passport.initialize())
         app.use('/v1', routes)
         app.use('/admin', adminRoutes)
     

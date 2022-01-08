@@ -1,4 +1,5 @@
-import hashPassword from "./hashPassword"
-import User from "../models/users/User"
+import bcrypt from "bcrypt"
 
-export default (user: User | null, password: string) => hashPassword(password) === user?.password
+export default (user: any, password: string) => {
+    return bcrypt.compareSync(password, user.password)
+}

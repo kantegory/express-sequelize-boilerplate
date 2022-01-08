@@ -5,22 +5,24 @@ import UserService from '../services/users/User'
 const opts = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: 'secret',
-    issuer: 'accounts.examplesoft.com',
-    audience: 'yoursite.net'
+    jsonWebTokenOptions: {
+        maxAge: '5m'
+    }
 }
 
-passport.use(new JwtStrategy(opts, async function(jwt_payload, done) {
+const customJwtStrategy = new JwtStrategy(opts, async function(jwt_payload, next) {
     const userService = new UserService()
 
-    try {
-        const user = await userService.getById(jwt_payload.sub)
+    const user = await userService.getById(jwt_payload.id)
 
-        done(null, user)
-    } catch (e) {
-
-        done(e, false)
+    if (user) {
+        next(null, user)
+    } else {
+        next(null, false)
     }
-}))
+})
+
+passport.use(customJwtStrategy)
 
 export { opts as jwtOptions }
 

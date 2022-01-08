@@ -26,7 +26,7 @@ class UserService {
     async checkPassword(email: string, password: string) : Promise<any> {
         const user = await User.findOne({ where: { email } })
 
-        if (user) return { user, checkPassword: checkPassword(user, password) }
+        if (user) return { user: user.toJSON(), checkPassword: checkPassword(user, password) }
 
         throw new UserError('Incorrect login/password!')
     }
