@@ -27,7 +27,6 @@ class RefreshTokenService {
 
             const currentDate = new Date()
             const timeDelta = currentDate.getTime() - tokenData.createdAt.getTime()
-            console.log(timeDelta)
 
             if (timeDelta > 0 && timeDelta < 60000) {
                 return { userId: tokenData.userId, isExpired: false }

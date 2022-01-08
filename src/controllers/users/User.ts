@@ -75,7 +75,6 @@ class UserController {
         const refreshTokenService = new RefreshTokenService()
 
         try {
-
             const { userId, isExpired } = await refreshTokenService
                 .isRefreshTokenExpired(refreshToken)
 
@@ -94,9 +93,7 @@ class UserController {
             } else {
                 throw new Error('Invalid credentials')
             }
-            
         } catch (e) {
-            console.log('error is', e)
             response.status(401).send({ 'error': 'Invalid credentials' })
         }
     }
