@@ -26,11 +26,13 @@
         "typescript": "^4.5.4"
     },
     "dependencies": {
+        "body-parser": "^1.19.1",
         "cors": "^2.8.5",
         "express": "^4.17.2",
         "ini": "^2.0.0",
         "reflect-metadata": "^0.1.13",
         "sequelize": "^6.12.5",
-        "sequelize-typescript": "^2.1.2"
+        "sequelize-typescript": "^2.1.2",
+        "sqlite3": "^5.0.2"
     }
 }
