@@ -1,0 +1,23 @@
+{
+  "development": {
+    "database": "some_db",
+    "dialect": "sqlite",
+    "username": "root",
+    "password": "",
+    "storage": "db.sqlite"
+  },
+  "test": {
+    "database": "some_db",
+    "dialect": "sqlite",
+    "username": "root",
+    "password": "",
+    "storage": "db.sqlite"
+  },
+  "production": {
+    "database": "some_db",
+    "dialect": "sqlite",
+    "username": "root",
+    "password": "",
+    "storage": "db.sqlite"
+  }
+}
