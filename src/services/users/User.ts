@@ -1,5 +1,6 @@
 import User from '../../models/users/User'
 import UserError from '../../errors/users/User'
+import checkPassword from '../../utils/checkPassword'
 
 class UserService {
     async getById(id: number) : Promise<User|UserError> {
@@ -20,6 +21,14 @@ class UserService {
 
             throw new UserError(errors)
         }
+    }
+
+    async checkPassword(email: string, password: string) : Promise<any> {
+        const user = await User.findOne({ where: { email } })
+
+        if (user) return { user, checkPassword: checkPassword(user, password) }
+
+        throw new UserError('Incorrect login/password!')
     }
 }
 

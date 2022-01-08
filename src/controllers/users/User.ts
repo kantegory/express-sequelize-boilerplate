@@ -1,6 +1,8 @@
 import User from '../../models/users/User'
 import UserService from '../../services/users/User'
 import UserError from '../../errors/users/User'
+import jwt from 'jsonwebtoken'
+import { jwtOptions } from '../../middlewares/passport'
 
 class UserController {
     private userService: UserService
@@ -31,6 +33,23 @@ class UserController {
             response.status(201).send(user)
         } catch (error: any) {
             response.status(400).send({ "error": error.message })
+        }
+    }
+
+    auth = async (request: any, response: any) => {
+        const { body } = request
+
+        const { email, password } = body
+
+        try {
+            const { user } = await this.userService.checkPassword(email, password)
+
+            const payload = {id: user.id}
+            const token = jwt.sign(payload, jwtOptions.secretOrKey)
+
+            response.send({ token })
+        } catch (e: any) {
+            response.status(401).send({ "error": e.message })
         }
     }
 }

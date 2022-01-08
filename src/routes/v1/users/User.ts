@@ -11,4 +11,7 @@ router.route('/')
 router.route('/:id')
     .get(controller.get)
 
+router.route('/login')
+    .post(controller.auth)
+
 export default router
