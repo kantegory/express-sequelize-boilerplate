@@ -66,6 +66,40 @@ class UserController {
             response.status(401).send({ "error": e.message })
         }
     }
+
+    refreshToken = async (request: any, response: any) => {
+        const { body } = request
+
+        const { refreshToken } = body
+
+        const refreshTokenService = new RefreshTokenService()
+
+        try {
+
+            const { userId, isExpired } = await refreshTokenService
+                .isRefreshTokenExpired(refreshToken)
+
+            if (!isExpired && userId) {
+                const user = await this.userService.getById(userId)
+
+                const payload = { id: user.id }
+
+                const accessToken = jwt.sign(payload, jwtOptions.secretOrKey)
+
+                const refreshTokenService = new RefreshTokenService(user)
+
+                const refreshToken = await refreshTokenService.generateRefreshToken()
+
+                response.send({ accessToken, refreshToken })
+            } else {
+                throw new Error('Invalid credentials')
+            }
+            
+        } catch (e) {
+            console.log('error is', e)
+            response.status(401).send({ 'error': 'Invalid credentials' })
+        }
+    }
 }
 
 export default UserController

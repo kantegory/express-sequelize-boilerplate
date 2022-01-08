@@ -3,7 +3,7 @@ import UserError from '../../errors/users/User'
 import checkPassword from '../../utils/checkPassword'
 
 class UserService {
-    async getById(id: number) : Promise<User|UserError> {
+    async getById(id: number) : Promise<User> {
         const user = await User.findByPk(id)
 
         if (user) return user.toJSON()

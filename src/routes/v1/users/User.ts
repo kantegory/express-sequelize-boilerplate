@@ -18,4 +18,7 @@ router.route('/:id')
 router.route('/login')
     .post(controller.auth)
 
+router.route('/refresh')
+    .post(controller.refreshToken)
+
 export default router
