@@ -1,12 +1,17 @@
 import passport from 'passport'
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt'
 import UserService from '../services/users/User'
+import configParser from "../utils/configParser"
+import path from 'path'
+
+const configPath = path.resolve(__dirname, "../configs/settings.ini")
+const config: any = configParser(configPath, "JWT")
 
 const opts = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: 'secret',
     jsonWebTokenOptions: {
-        maxAge: '10s'
+        maxAge: `${config.accessTokenLifetime}ms`
     }
 }
 

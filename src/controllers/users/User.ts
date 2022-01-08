@@ -20,7 +20,6 @@ class UserController {
 
             response.send(user)
         } catch (error: any) {
-            console.log(error)
             response.status(404).send({ "error": error.message })
         }
     }
@@ -51,6 +50,8 @@ class UserController {
 
             if (checkPassword) {
                 const payload = { id: user.id }
+
+                console.log('payload is', payload)
 
                 const accessToken = jwt.sign(payload, jwtOptions.secretOrKey)
 

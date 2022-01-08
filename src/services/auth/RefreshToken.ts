@@ -1,6 +1,11 @@
 import RefreshToken from "../../models/auth/RefreshToken"
 import User from "../../models/users/User"
 import { randomUUID } from "crypto"
+import configParser from "../../utils/configParser"
+import path from 'path'
+
+const configPath = path.resolve(__dirname, "../../configs/settings.ini")
+const config: any = configParser(configPath, "JWT")
 
 class RefreshTokenService {
     private user: User | null
@@ -28,7 +33,7 @@ class RefreshTokenService {
             const currentDate = new Date()
             const timeDelta = currentDate.getTime() - tokenData.createdAt.getTime()
 
-            if (timeDelta > 0 && timeDelta < 60000) {
+            if (timeDelta > 0 && timeDelta < config.refreshTokenLifetime) {
                 return { userId: tokenData.userId, isExpired: false }
             }
 

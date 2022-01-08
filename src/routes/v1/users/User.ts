@@ -12,7 +12,7 @@ router.route('/')
 router.route('/profile')
     .get(passport.authenticate('jwt', { session: false }), controller.me)
 
-router.route('/:id')
+router.route('/profile/:id')
     .get(controller.get)
 
 router.route('/login')

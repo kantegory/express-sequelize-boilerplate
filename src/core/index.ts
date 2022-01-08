@@ -7,6 +7,11 @@ import sequelize from "../providers/db"
 import { Sequelize } from 'sequelize-typescript'
 import bodyParser from "body-parser"
 import passport from "../middlewares/passport"
+import configParser from "../utils/configParser"
+import path from 'path'
+
+const configPath = path.resolve(__dirname, "../configs/settings.ini")
+const config: any = configParser(configPath, "SERVER")
 
 class App {
     public port: number
@@ -17,8 +22,8 @@ class App {
     private sequelize: Sequelize
 
     constructor(port = 8000, host = "localhost") {
-        this.port = port
-        this.host = host
+        this.port = config.port || port
+        this.host = config.host || host
     
         this.app = this.createApp()
         this.server = this.createServer()
