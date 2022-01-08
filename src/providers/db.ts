@@ -10,7 +10,9 @@ const sequelize = new Sequelize({
   logging: console.log,
 })
 
-sequelize.addModels([User])
+const models = [User]
+
+sequelize.addModels(models)
 
 sequelize
   .sync()

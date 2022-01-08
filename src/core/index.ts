@@ -2,6 +2,7 @@ import express from "express"
 import cors from "cors"
 import { createServer, Server } from "http"
 import routes from "../routes/v1/index"
+import adminRoutes from "../routes/admin/admin"
 import sequelize from "../providers/db"
 import { Sequelize } from 'sequelize-typescript'
 import bodyParser from "body-parser"
@@ -28,6 +29,7 @@ class App {
         app.use(cors())
         app.use(bodyParser.json())
         app.use('/v1', routes)
+        app.use('/admin', adminRoutes)
     
         return app
       }
