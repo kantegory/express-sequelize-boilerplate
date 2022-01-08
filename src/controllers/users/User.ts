@@ -3,6 +3,7 @@ import UserService from '../../services/users/User'
 import UserError from '../../errors/users/User'
 import jwt from 'jsonwebtoken'
 import { jwtOptions } from '../../middlewares/passport'
+import RefreshTokenService from '../../services/auth/RefreshToken'
 
 class UserController {
     private userService: UserService
@@ -51,9 +52,13 @@ class UserController {
             if (checkPassword) {
                 const payload = { id: user.id }
 
-                const token = jwt.sign(payload, jwtOptions.secretOrKey)
+                const accessToken = jwt.sign(payload, jwtOptions.secretOrKey)
 
-                response.send({ token })
+                const refreshTokenService = new RefreshTokenService(user)
+
+                const refreshToken = await refreshTokenService.generateRefreshToken()
+
+                response.send({ accessToken, refreshToken })
             } else {
                 throw new Error('Login or password is incorrect!')
             }

@@ -6,7 +6,7 @@ const opts = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: 'secret',
     jsonWebTokenOptions: {
-        maxAge: '5m'
+        maxAge: '10s'
     }
 }
 
